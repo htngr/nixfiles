@@ -1,0 +1,90 @@
+"""""""""""""""" UI
+
+set title
+" syntax on
+set relativenumber
+set number " absolute line nr
+set signcolumn=number " used for lsp
+set nohlsearch " search highlighting
+set noshowmode
+" set noruler
+set laststatus=2 " enable status line
+set noshowcmd
+set scrolloff=8
+
+" Theme
+
+if has('termguicolors')
+    set termguicolors
+endif
+
+"""""""""""""""" Behaviour
+
+" Tabs / Spaces
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+
+let mapleader =","
+" let maplocalleader ="\<Space>"
+
+" Mouse selection in gui / tui mode
+" set go=a
+"set mouse=
+" set mouse-=a
+
+" DONT keep hidden buffers
+" set hidden
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+set timeoutlen=500
+" delay after which swapfile is written
+set updatetime=200
+
+" Code folding
+" set foldmethod=marker
+" set foldmethod=expr
+" set foldexpr=nvim_treesitter#foldexpr()
+" augroup fold
+"     autocmd!
+"     autocmd BufReadPost,FileReadPost * normal zR
+" augroup END
+
+"Set fold level to highest in file
+"so everything starts out unfolded at just the right level
+" autocmd BufWinEnter * let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v:val)'))
+
+" share data between nvim instances (registers etc)
+augroup SHADA
+    autocmd!
+    autocmd CursorHold,TextYankPost,FocusGained,FocusLost *
+                \ if exists(':rshada') | rshada | wshada | endif
+augroup END
+
+" TeX
+" augroup texbindings
+"   autocmd! texbindings
+"   autocmd Filetype tex setlocal foldmethod=marker
+" augroup end
+
+"""""""""" common key binds
+" Shortcutting split navigation, saving a keypress:
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+" make
+map <leader>m :w! \| !make <CR>
+" Save file as su on files that require root permission
+cnoremap w!! execute 'silent! write !doas tee % >/dev/null' <bar> edit!
+
+""""""""""" buffers
+" let g:airline#extensions#tabline#enabled = 1
+map <leader>b :bn<CR>
+map <leader>B :bp<CR>
+
+""""""""""" Goyo
+" Goyo plugin makes text more readable when writing prose:
+" map <leader>f :Goyo <CR>
+
+""""""""""" Spell-check
+" set to <leader>o, 'o' for 'orthography':
+map <leader>o :setlocal spell! spelllang=de_de<CR>
